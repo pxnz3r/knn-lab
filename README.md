@@ -1,8 +1,28 @@
-# KNN lab
+<div align="center">
 
-K-Nearest Neighbours on Iris flowers and fruit: how the number of neighbours (K) and input scaling change the predictions, with an interactive demo.
+<h1>KNN lab</h1>
 
-![Decision regions for K = 1, the tuned K and a very large K](outputs/figures/fruit/decision_maps.png)
+<p>K-Nearest Neighbours on Iris flowers and fruit: how the number of neighbours (K) and input scaling change the predictions, with an interactive demo.</p>
+
+<p>
+<a href="https://github.com/pxnz3r/knn-lab/actions/workflows/ci.yml"><img src="https://github.com/pxnz3r/knn-lab/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+<img src="https://img.shields.io/badge/python-3.14-blue" alt="Python 3.14">
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license"></a>
+</p>
+
+<p><a href="docs/results.md">Results</a> · <a href="docs/methodology.md">Methodology</a> · <a href="docs/deploy.md">Deploy the demo</a></p>
+
+<img src="outputs/figures/fruit/decision_maps.png" width="720" alt="Decision regions for K = 1, the tuned K and a very large K">
+
+</div>
+
+## How it works
+
+1. **Load and check** Iris (150 flowers) and a generated fruit table (600 fruit).
+2. **Tune K**, vote weights and distance with 5-fold cross-validation, with and without scaled inputs.
+3. **Score once** on a 30% test split and explain the predictions with permutation importance and decision maps.
+4. **Test how sure the scores are** with bootstrap intervals, a paired test against every rival, learning curves and a baseline that ignores the inputs.
+5. **Study the mistakes**: which classes get confused and how accuracy rises with confidence, then **try it** in the Streamlit demo.
 
 ## Results
 
@@ -20,6 +40,16 @@ Test set: 30% of each dataset, never used for tuning. K, vote weights and distan
 - **K trades noise for detail.** K = 1 follows every stray example; on fruit, accuracy climbs to K of about 25 to 41 and then falls as the smaller groups get outvoted. See `outputs/figures/*/k_sweep.png`.
 
 Full tables: [docs/results.md](docs/results.md).
+
+## How sure the results are
+
+**Iris is too small to separate the two models.** Raw inputs score 0.956 with a 95% bootstrap interval of 0.889 to 1.000; against scaled inputs McNemar's test gives p = 1.0.
+
+**On fruit, scaling is a real win.** Scaled KNN scores 0.861 (0.806 to 0.911) and beats raw inputs on McNemar's test (p < 0.001). Without scaling, KNN memorises the training fruit: training accuracy 1.000 against 0.705 on validation.
+
+**Oranges are the hard case.** 24% of oranges are called apples. When scaled KNN is at least 90% sure, it is always right, on 44% of the test fruit.
+
+Every table and figure behind these is in [docs/results.md](docs/results.md).
 
 ## Run it
 
