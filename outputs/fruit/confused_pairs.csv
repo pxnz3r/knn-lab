@@ -1,0 +1,5 @@
+Real class,Predicted as,Cases,Share of the real class
+orange,apple,11,0.244
+apple,orange,8,0.178
+apple,lemon,3,0.067
+lemon,apple,3,0.067

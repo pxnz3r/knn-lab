@@ -1,0 +1,13 @@
+Model,Training rows,Training score,Validation score
+KNN,12,1.0,0.8952
+KNN,26,1.0,0.9333
+KNN,41,1.0,0.9524
+KNN,55,1.0,0.981
+KNN,69,1.0,0.9619
+KNN,84,1.0,0.9714
+KNN without scaling,12,1.0,0.9429
+KNN without scaling,26,1.0,0.9429
+KNN without scaling,41,1.0,0.9619
+KNN without scaling,55,1.0,0.9714
+KNN without scaling,69,1.0,0.981
+KNN without scaling,84,1.0,0.981

@@ -42,6 +42,7 @@ from pxlab.tabular.explain import (
     plot_parameter_sweep,
     plot_permutation_importance,
 )
+from pxlab.tabular.study import run_study
 from pxlab.tabular.train import best_model_name, save_models, train_models
 
 SWEEP_K = [1, 3, 5, 7, 9, 11, 15, 21, 25, 31, 41, 51, 61]
@@ -130,6 +131,8 @@ def run_dataset(spec):
         largest_k += 1  # odd, so two classes can't tie
     plot_decision_maps(train_features, train_target, spec, [1, best_k, largest_k], f"{folder}/decision_maps.png")
 
+    study = run_study(spec, results, best, train_features, train_target, test_features, test_target, folder)
+
     model_info = {
         "dataset": spec["name"],
         "classes": sorted(str(c) for c in data[spec["target"]].unique()),
@@ -141,6 +144,7 @@ def run_dataset(spec):
         "k_sweep_best_test_k": int(sweep.loc[sweep["Test score"].idxmax(), "n_neighbors"]),
     }
     model_info.update(input_summary(train_features, spec))
+    model_info.update(study)
     save_models(results, model_info, folder=model_folder)
 
 

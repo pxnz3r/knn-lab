@@ -1,0 +1,8 @@
+Finding
+KNN without scaling scores Accuracy 0.956 on the test set (95% interval 0.889 to 1.000); the baseline that ignores the inputs scores 0.333.
+KNN without scaling against KNN on right or wrong answers (McNemar): could be chance (p = 1.000).
+KNN without scaling against Baseline (ignores the inputs) on right or wrong answers (McNemar): real difference (p = 0.000).
+"KNN generalises well: training and validation accuracy are close (+0.029); validation has levelled off, so more data alone would help little."
+"KNN without scaling generalises well: training and validation accuracy are close (+0.019); validation has levelled off, so more data alone would help little."
+"The most common mix-up: virginica predicted as versicolor (2 cases, 13% of virginica)."
+When KNN without scaling is at least 90% sure it is right 100% of the time (80% of test cases).

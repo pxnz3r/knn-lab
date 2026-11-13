@@ -1,0 +1,8 @@
+Finding
+KNN scores Accuracy 0.861 on the test set (95% interval 0.806 to 0.911); the baseline that ignores the inputs scores 0.250.
+KNN against KNN without scaling on right or wrong answers (McNemar): real difference (p = 0.000).
+KNN against Baseline (ignores the inputs) on right or wrong answers (McNemar): real difference (p = 0.000).
+"KNN generalises well: training and validation accuracy are close (-0.001); validation has levelled off, so more data alone would help little."
+"KNN without scaling overfits: training accuracy 1.000 against validation 0.705; validation is still rising, so more data would likely help."
+"The most common mix-up: orange predicted as apple (11 cases, 24% of orange)."
+When KNN is at least 90% sure it is right 100% of the time (44% of test cases).

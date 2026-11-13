@@ -1,0 +1,7 @@
+Model,Score,Test value,Low,High
+KNN,Accuracy,0.9333,0.8444,1.0
+KNN,F1,0.9327,0.8412,1.0
+KNN without scaling,Accuracy,0.9556,0.8889,1.0
+KNN without scaling,F1,0.9554,0.8885,1.0
+Baseline (ignores the inputs),Accuracy,0.3333,0.2,0.4667
+Baseline (ignores the inputs),F1,0.1667,0.1111,0.2121

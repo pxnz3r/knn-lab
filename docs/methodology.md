@@ -25,6 +25,7 @@ The fruit rows are drawn from a normal distribution per fruit and measurement (`
 6. **Which inputs matter**: permutation importance on the test set. Each input is shuffled 10 times and the drop in accuracy is recorded.
 7. **K sweep**: with the other tuned settings fixed, K from 1 to 61, cross-validation and test accuracy for both models.
 8. **Decision maps**: KNN trained on just two inputs, coloured by the predicted class across a grid, for K = 1, the tuned K and a very large K.
+9. **In-depth analysis** (`pxlab.tabular.study`): 1,000-round bootstrap 95% intervals for the headline test scores, next to a baseline that ignores the inputs; McNemar's test of the best model against each other model; learning curves; and an error analysis that compares the inputs of right and wrong answers, lists the classes the model mixes up and shows how accuracy depends on the model's confidence. Each finding is one sentence in `outputs/<dataset>/key_findings.csv`.
 
 ## Limits
 

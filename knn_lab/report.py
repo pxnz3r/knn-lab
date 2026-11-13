@@ -3,6 +3,8 @@ report.py - which saved tables and figures make up the results. The app's
 Results tab and docs/results.md both read this list, so they always match.
 """
 
+from pxlab.tabular.study import study_sections
+
 
 def results_sections(spec):
     """
@@ -23,6 +25,7 @@ def results_sections(spec):
                 ("figure", f"{folder}/confusion_matrices.png"),
             ],
         ),
+        *study_sections(spec, folder),
         ("Mistakes", [("table", "Test examples the best model got wrong", f"{folder}/wrong_predictions.csv")]),
         (
             "Which inputs matter",
