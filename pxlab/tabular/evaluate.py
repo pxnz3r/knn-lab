@@ -262,3 +262,25 @@ def wrong_predictions(pipeline, test_features, test_target, spec, limit=20):
     table["Error"] = table["Real"] - table["Predicted"]
     order = table["Error"].abs().sort_values(ascending=False).index
     return table.loc[order].head(limit)
+
+
+def largest_errors(pipeline, test_features, test_target, spec, limit=20):
+    """
+    The test examples a regression model got most wrong, for error analysis.
+
+    Inputs:
+        pipeline: a fitted regression pipeline.
+        test_features, test_target: the test data.
+        spec: the project SPEC.
+        limit: how many rows to keep.
+    Returns:
+        A DataFrame with the inputs, the real and predicted values and the
+        error, biggest error first.
+    """
+    predictions = pipeline.predict(test_features)
+    table = test_features.copy()
+    table["Real"] = test_target.to_numpy()
+    table["Predicted"] = np.round(predictions, 2)
+    table["Error"] = np.round(table["Real"] - table["Predicted"], 2)
+    table = table.reindex(table["Error"].abs().sort_values(ascending=False).index).head(limit)
+    return table.rename(columns=lambda column: label_for(spec, column))

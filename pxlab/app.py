@@ -251,3 +251,38 @@ def class_probabilities(pipeline, example):
     """
     probabilities = pipeline.predict_proba(example)[0]
     return pd.Series(probabilities, index=[str(c) for c in pipeline.classes_]).sort_values(ascending=False)
+
+
+def signed_bars(values, format_value=lambda value: f"{value:+.2f}"):
+    """
+    One row per item with a bar going right for positive values and left
+    for negative ones, from a centre line. Used to show how much each input
+    pushes a prediction up or down. Plain HTML in the text colour, so it
+    suits light and dark themes.
+
+    Inputs:
+        values: a pandas Series, label -> signed number.
+        format_value: a function that turns a number into display text.
+    Returns:
+        Nothing (draws on the page).
+    """
+    largest = max(float(values.abs().max()), 1e-12)
+    rows = []
+    for label, value in values.items():
+        width = abs(float(value)) / largest * 50
+        side = f"left: 50%; width: {width:.1f}%;" if value >= 0 else f"left: {50 - width:.1f}%; width: {width:.1f}%;"
+        rows.append(
+            f"""
+<div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) 6.5rem; gap: 0.75rem;
+            align-items: center; margin: 4px 0;">
+  <span style="overflow-wrap: anywhere;">{label}</span>
+  <div style="position: relative; height: 10px;">
+    <div style="position: absolute; left: calc(50% - 0.5px); top: -4px; bottom: -4px; width: 1px;
+                background: color-mix(in srgb, currentColor 30%, transparent);"></div>
+    <div style="position: absolute; top: 0; bottom: 0; {side} border-radius: 3px;
+                background: color-mix(in srgb, currentColor {55 if value >= 0 else 30}%, transparent);"></div>
+  </div>
+  <span style="text-align: right; font-variant-numeric: tabular-nums;">{format_value(value)}</span>
+</div>"""
+        )
+    st.markdown("".join(rows), unsafe_allow_html=True)

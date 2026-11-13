@@ -22,7 +22,7 @@ import joblib
 from sklearn.base import clone
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.model_selection import GridSearchCV, KFold, StratifiedKFold
+from sklearn.model_selection import GridSearchCV, KFold, StratifiedKFold, TimeSeriesSplit
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
@@ -93,7 +93,7 @@ def build_pipeline(spec, model_spec):
 def cross_validation_folds(spec, folds=5):
     """
     The folds used for tuning: stratified for classification, plain shuffled
-    folds for regression.
+    folds for regression, time-ordered folds when SPEC["time_order"] is set.
 
     Inputs:
         spec: the project SPEC.
@@ -101,6 +101,10 @@ def cross_validation_folds(spec, folds=5):
     Returns:
         A scikit-learn splitter.
     """
+    if spec.get("time_order"):
+        # Rows are in time order: each fold trains on the past and validates
+        # on the period right after it, never on the future.
+        return TimeSeriesSplit(n_splits=folds)
     if spec["task"] == "classification":
         return StratifiedKFold(n_splits=folds, shuffle=True, random_state=RANDOM_STATE)
     return KFold(n_splits=folds, shuffle=True, random_state=RANDOM_STATE)
@@ -202,7 +206,8 @@ def save_models(results, model_info, folder=MODELS_FOLDER):
     model_info["best_params"] = {}
     for model_name, result in results.items():
         file_name = file_name_for(model_name)
-        joblib.dump(result["pipeline"], os.path.join(folder, file_name))
+        # compress=3 keeps big models (random forests) small enough for GitHub.
+        joblib.dump(result["pipeline"], os.path.join(folder, file_name), compress=3)
         model_info["model_files"][model_name] = file_name
         model_info["best_params"][model_name] = {k: plain_value(v) for k, v in result["best_params"].items()}
     with open(os.path.join(folder, MODEL_INFO_FILE), "w") as file:

@@ -104,14 +104,21 @@ def split_data(data, spec):
     """
     features = data[feature_columns(spec)]
     target = data[spec["target"]]
-    stratify = target if spec["task"] == "classification" else None
-    train_features, test_features, train_target, test_target = train_test_split(
-        features,
-        target,
-        test_size=spec.get("test_size", 0.2),
-        random_state=RANDOM_STATE,
-        stratify=stratify,
-    )
+    if spec.get("time_order"):
+        # Time series: the test set is the most recent rows, so the model is
+        # judged on days that come after everything it learned from.
+        train_features, test_features, train_target, test_target = train_test_split(
+            features, target, test_size=spec.get("test_size", 0.2), shuffle=False
+        )
+    else:
+        stratify = target if spec["task"] == "classification" else None
+        train_features, test_features, train_target, test_target = train_test_split(
+            features,
+            target,
+            test_size=spec.get("test_size", 0.2),
+            random_state=RANDOM_STATE,
+            stratify=stratify,
+        )
     print(f"  Training rows: {len(train_features)}, test rows: {len(test_features)}")
     return train_features, test_features, train_target, test_target
 
@@ -134,7 +141,8 @@ def input_summary(train_features, spec):
         defaults[column] = float(train_features[column].median())
         ranges[column] = [float(train_features[column].min()), float(train_features[column].max())]
     for column in spec["categorical"]:
-        values = sorted(train_features[column].dropna().unique().tolist(), key=str)
+        # Numbers sort as numbers (month 2 before 10), text alphabetically.
+        values = sorted(train_features[column].dropna().unique().tolist())
         options[column] = [value.item() if hasattr(value, "item") else value for value in values]
         mode = train_features[column].mode().iloc[0]
         defaults[column] = mode.item() if hasattr(mode, "item") else mode
