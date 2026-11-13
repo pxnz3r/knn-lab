@@ -1,0 +1,6 @@
+Column,Type,Missing,Distinct values
+mass_g,numeric,0,180
+width_cm,numeric,0,38
+height_cm,numeric,0,61
+color_score,numeric,0,61
+fruit,target,0,4

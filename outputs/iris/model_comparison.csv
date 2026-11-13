@@ -1,0 +1,3 @@
+Model,Role,CV accuracy,Accuracy,Precision,Recall,F1
+KNN,Main,0.971,0.933,0.944,0.933,0.933
+KNN without scaling,Comparison,0.981,0.956,0.961,0.956,0.955

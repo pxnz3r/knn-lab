@@ -1,0 +1,69 @@
+{
+  "dataset": "Iris flowers",
+  "classes": [
+    "setosa",
+    "versicolor",
+    "virginica"
+  ],
+  "best_model": "KNN without scaling",
+  "test_scores": {
+    "KNN": {
+      "Accuracy": 0.9333333333333333,
+      "Precision": 0.9444444444444445,
+      "Recall": 0.9333333333333332,
+      "F1": 0.9326599326599326
+    },
+    "KNN without scaling": {
+      "Accuracy": 0.9555555555555556,
+      "Precision": 0.9607843137254902,
+      "Recall": 0.9555555555555556,
+      "F1": 0.9553571428571429
+    }
+  },
+  "cv_scores": {
+    "KNN": 0.9714285714285713,
+    "KNN without scaling": 0.980952380952381
+  },
+  "k_sweep_best_test_k": 1,
+  "default_values": {
+    "sepal_length": 5.8,
+    "sepal_width": 3.0,
+    "petal_length": 4.2,
+    "petal_width": 1.3
+  },
+  "feature_ranges": {
+    "sepal_length": [
+      4.3,
+      7.9
+    ],
+    "sepal_width": [
+      2.0,
+      4.4
+    ],
+    "petal_length": [
+      1.1,
+      6.9
+    ],
+    "petal_width": [
+      0.1,
+      2.5
+    ]
+  },
+  "category_options": {},
+  "model_files": {
+    "KNN": "knn.joblib",
+    "KNN without scaling": "knn_without_scaling.joblib"
+  },
+  "best_params": {
+    "KNN": {
+      "metric": "euclidean",
+      "n_neighbors": 7,
+      "weights": "distance"
+    },
+    "KNN without scaling": {
+      "metric": "euclidean",
+      "n_neighbors": 7,
+      "weights": "distance"
+    }
+  }
+}

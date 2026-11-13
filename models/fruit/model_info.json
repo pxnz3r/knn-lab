@@ -1,0 +1,70 @@
+{
+  "dataset": "Fruit",
+  "classes": [
+    "apple",
+    "lemon",
+    "mandarin",
+    "orange"
+  ],
+  "best_model": "KNN",
+  "test_scores": {
+    "KNN": {
+      "Accuracy": 0.8611111111111112,
+      "Precision": 0.862797619047619,
+      "Recall": 0.8611111111111112,
+      "F1": 0.8615313311086392
+    },
+    "KNN without scaling": {
+      "Accuracy": 0.6944444444444444,
+      "Precision": 0.7059598312315704,
+      "Recall": 0.6944444444444444,
+      "F1": 0.6946130876823946
+    }
+  },
+  "cv_scores": {
+    "KNN": 0.8619047619047618,
+    "KNN without scaling": 0.7047619047619047
+  },
+  "k_sweep_best_test_k": 9,
+  "default_values": {
+    "mass_g": 151.0,
+    "width_cm": 6.9,
+    "height_cm": 7.7,
+    "color_score": 0.58
+  },
+  "feature_ranges": {
+    "mass_g": [
+      40.0,
+      273.0
+    ],
+    "width_cm": [
+      5.1,
+      9.2
+    ],
+    "height_cm": [
+      3.9,
+      11.5
+    ],
+    "color_score": [
+      0.37,
+      0.99
+    ]
+  },
+  "category_options": {},
+  "model_files": {
+    "KNN": "knn.joblib",
+    "KNN without scaling": "knn_without_scaling.joblib"
+  },
+  "best_params": {
+    "KNN": {
+      "metric": "euclidean",
+      "n_neighbors": 29,
+      "weights": "uniform"
+    },
+    "KNN without scaling": {
+      "metric": "manhattan",
+      "n_neighbors": 3,
+      "weights": "distance"
+    }
+  }
+}

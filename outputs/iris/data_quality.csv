@@ -1,0 +1,6 @@
+Column,Type,Missing,Distinct values
+sepal_length,numeric,0,35
+sepal_width,numeric,0,23
+petal_length,numeric,0,43
+petal_width,numeric,0,22
+species,target,0,3
