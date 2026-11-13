@@ -13,6 +13,7 @@ For each dataset (Iris flowers, then fruit) it:
     5. measures which inputs matter (permutation importance),
     6. sweeps K from 1 to 60 and draws how the class boundaries change,
     7. saves the models for the app.
+Then it writes docs/results.md from the saved tables.
 Figures and tables go to outputs/<dataset>/, models to models/<dataset>/.
 """
 
@@ -22,8 +23,9 @@ from sklearn.base import clone
 
 from knn_lab.data import load_dataset
 from knn_lab.knn import plot_decision_maps
+from knn_lab.report import results_sections
 from knn_lab.spec import SPECS
-from pxlab.common import MODELS_FOLDER, save_table, set_plot_style
+from pxlab.common import MODELS_FOLDER, save_table, set_plot_style, write_results_doc
 from pxlab.tabular.data import (
     check_columns,
     input_summary,
@@ -152,6 +154,12 @@ def main():
     set_plot_style()
     for spec in SPECS:
         run_dataset(spec)
+    sections = [(f"{spec['name']}: {heading}", items) for spec in SPECS for heading, items in results_sections(spec)]
+    write_results_doc(
+        "Results",
+        "Produced by `python main.py`. Test sets are 30% of each dataset and were not used for tuning or model choice.",
+        sections,
+    )
     print("\nDone. Figures and tables are in outputs/, models in models/. Run: streamlit run app.py")
 
 

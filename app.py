@@ -17,6 +17,7 @@ import os
 import streamlit as st
 
 from knn_lab.knn import accuracy_for_k, nearest_neighbours, split_frames
+from knn_lab.report import results_sections
 from knn_lab.spec import SPECS
 from pxlab.app import (
     class_probabilities,
@@ -167,46 +168,7 @@ def show_results_page(spec):
     Returns:
         Nothing.
     """
-    folder = spec["folder"]
-    show_results_tabs(
-        [
-            (
-                "Models",
-                [
-                    ("table", "Scaled against raw inputs", f"{folder}/model_comparison.csv"),
-                    ("figure", f"{folder}/confusion_matrices.png"),
-                ],
-            ),
-            (
-                "Mistakes",
-                [("table", "Test examples the best model got wrong", f"{folder}/wrong_predictions.csv")],
-            ),
-            (
-                "Which inputs matter",
-                [
-                    ("figure", f"{folder}/permutation_importance.png"),
-                    ("table", "Permutation importance", f"{folder}/permutation_importance.csv"),
-                ],
-            ),
-            (
-                "K sweep",
-                [
-                    ("table", "Scaled inputs", f"{folder}/k_sweep.csv"),
-                    ("table", "Raw inputs", f"{folder}/k_sweep_no_scaling.csv"),
-                    ("figure", f"{folder}/k_sweep_no_scaling.png"),
-                ],
-            ),
-            (
-                "Data",
-                [
-                    ("table", "Data quality", f"{folder}/data_quality.csv"),
-                    ("figure", f"{folder}/classes.png"),
-                    ("figure", f"{folder}/pairs.png"),
-                    ("figure", f"{folder}/correlations.png"),
-                ],
-            ),
-        ]
-    )
+    show_results_tabs(results_sections(spec))
 
 
 def main():
